@@ -209,9 +209,16 @@ def reduce(
 
     """
 
-    def my_reduce(fn, ls, start):
-        for i in range(len(ls)):
-            start = fn(ls[i], start)
+    def my_reduce(
+        fn: Callable[[float, float], float], ls: Iterable[float], start: float
+    ) -> float:
+        """Helper function that implements basic recurcive logic of the reduction."""
+        it = iter(ls)
+        while True:
+            try:
+                start = fn(next(it), start)
+            except StopIteration:
+                break
         return start
 
     return lambda ls: my_reduce(fn, ls, start)

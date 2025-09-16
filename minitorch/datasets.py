@@ -4,7 +4,18 @@ from dataclasses import dataclass
 from typing import List, Tuple
 
 
-def make_pts(N):
+def make_pts(N: int) -> List[Tuple[float, float]]:
+    """Generate the given number of random points.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Sequence of generated random points.
+
+    """
     X = []
     for i in range(N):
         x_1 = random.random()
@@ -20,7 +31,18 @@ class Graph:
     y: List[int]
 
 
-def simple(N):
+def simple(N: int) -> Graph:
+    """Dataset of points divided by a vertical line x=1/2.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a simple dataset.
+
+    """
     X = make_pts(N)
     y = []
     for x_1, x_2 in X:
@@ -29,7 +51,18 @@ def simple(N):
     return Graph(N, X, y)
 
 
-def diag(N):
+def diag(N: int) -> Graph:
+    """Dataset of diagonally separated points.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a diag dataset.
+
+    """
     X = make_pts(N)
     y = []
     for x_1, x_2 in X:
@@ -38,7 +71,18 @@ def diag(N):
     return Graph(N, X, y)
 
 
-def split(N):
+def split(N: int) -> Graph:
+    """Dataset of points splitted by a vertical lines x=2/5 and x=4/5.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a split dataset.
+
+    """
     X = make_pts(N)
     y = []
     for x_1, x_2 in X:
@@ -47,7 +91,18 @@ def split(N):
     return Graph(N, X, y)
 
 
-def xor(N):
+def xor(N: int) -> Graph:
+    """Dataset of xor points.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a xor dataset.
+
+    """
     X = make_pts(N)
     y = []
     for x_1, x_2 in X:
@@ -56,7 +111,18 @@ def xor(N):
     return Graph(N, X, y)
 
 
-def circle(N):
+def circle(N: int) -> Graph:
+    """Dataset of points that form a circle.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a circle dataset.
+
+    """
     X = make_pts(N)
     y = []
     for x_1, x_2 in X:
@@ -66,11 +132,25 @@ def circle(N):
     return Graph(N, X, y)
 
 
-def spiral(N):
-    def x(t):
+def spiral(N: int) -> Graph:
+    """Dataset of points that form a spiral.
+
+    Args:
+    ----
+        N: Number of points.
+
+    Returns:
+    -------
+        Graph that represents a spiral dataset.
+
+    """
+
+    def x(t: float) -> float:
+        """$f(t) = t * cos(t) / 20.0$"""
         return t * math.cos(t) / 20.0
 
-    def y(t):
+    def y(t: float) -> float:
+        """$f(t) = t * sin(t) / 20.0$"""
         return t * math.sin(t) / 20.0
 
     X = [

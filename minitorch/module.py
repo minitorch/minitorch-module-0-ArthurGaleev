@@ -33,7 +33,8 @@ class Module:
         """Set the mode of this module and all descendent modules to `train`."""
         self.training = True
 
-        modules = [self]
+        modules: list[Module] = []
+        modules.append(self)
         while len(modules):
             for module in modules[0].modules():
                 modules.append(module)
@@ -44,7 +45,8 @@ class Module:
         """Set the mode of this module and all descendent modules to `eval`."""
         self.training = False
 
-        modules = [self]
+        modules: list[Module] = []
+        modules.append(self)
         while len(modules):
             for module in modules[0].modules():
                 modules.append(module)
@@ -59,26 +61,28 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
 
         """
-        named_parameters = []
+        named_parameters: list[Tuple[str, Parameter]] = []
         named_parameters.extend(self._parameters.items())
 
-        modules = [(self, "")]
+        modules: list[Tuple[str, Module]] = []
+        modules.append(("", self))
         while len(modules):
-            for m_name, module in modules[0][0].__dict__["_modules"].items():
+            for m_name, module in modules[0][1].__dict__["_modules"].items():
                 for p_name, parameter in module._parameters.items():
                     named_parameters.append(
-                        (modules[0][1] + m_name + "." + p_name, parameter)
+                        (modules[0][0] + m_name + "." + p_name, parameter)
                     )
-                modules.append((module, m_name + "."))
+                modules.append((m_name + ".", module))
             modules.pop(0)
         return named_parameters
 
     def parameters(self) -> Sequence[Parameter]:
         """Enumerate over all the parameters of this module and its descendents."""
-        parameters = []
+        parameters: list[Parameter] = []
         parameters.extend(self._parameters.values())
 
-        modules = [self]
+        modules: list[Module] = []
+        modules.append(self)
         while len(modules):
             for module in modules[0].modules():
                 parameters.extend(module._parameters.values())
@@ -120,6 +124,7 @@ class Module:
         return None
 
     def __call__(self, *args: Any, **kwargs: Any) -> Any:
+        """Set the call as a forward function."""
         return self.forward(*args, **kwargs)
 
     def __repr__(self) -> str:
