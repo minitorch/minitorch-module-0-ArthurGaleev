@@ -32,7 +32,7 @@ class Module:
     def train(self) -> None:
         """Set the mode of this module and all descendent modules to `train`."""
         self.training = True
-        
+
         modules = [self]
         while len(modules):
             for module in modules[0].modules():
@@ -43,7 +43,7 @@ class Module:
     def eval(self) -> None:
         """Set the mode of this module and all descendent modules to `eval`."""
         self.training = False
-        
+
         modules = [self]
         while len(modules):
             for module in modules[0].modules():
@@ -61,12 +61,14 @@ class Module:
         """
         named_parameters = []
         named_parameters.extend(self._parameters.items())
-        
+
         modules = [(self, "")]
         while len(modules):
             for m_name, module in modules[0][0].__dict__["_modules"].items():
                 for p_name, parameter in module._parameters.items():
-                    named_parameters.append((modules[0][1] + m_name + "." + p_name, parameter))
+                    named_parameters.append(
+                        (modules[0][1] + m_name + "." + p_name, parameter)
+                    )
                 modules.append((module, m_name + "."))
             modules.pop(0)
         return named_parameters

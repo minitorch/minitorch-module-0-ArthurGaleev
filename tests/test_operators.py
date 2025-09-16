@@ -1,7 +1,7 @@
 from typing import Callable, List, Tuple
 
 import pytest
-from hypothesis import example, given
+from hypothesis import given
 from hypothesis.strategies import integers, lists
 
 from minitorch import MathTest
@@ -169,7 +169,7 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     """Write a test that ensures that the sum of `ls1` plus the sum of `ls2`
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
-    assert_close (sum(addLists(ls1, ls2)), sum(ls1) + sum(ls2))
+    assert_close(sum(addLists(ls1, ls2)), sum(ls1) + sum(ls2))
 
 
 @pytest.mark.task0_3
